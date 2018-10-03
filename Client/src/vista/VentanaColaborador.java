@@ -87,7 +87,7 @@ public class VentanaColaborador extends javax.swing.JFrame
         jButton2.setText("PAUSAR");
         jPanel2.add(jButton2);
 
-        jButton3.setText("RENAUDAR");
+        jButton3.setText("REANUDAR");
         jPanel2.add(jButton3);
 
         jButton4.setText("FINALIZAR");
