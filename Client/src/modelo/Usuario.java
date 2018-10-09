@@ -6,8 +6,7 @@ public class Usuario{
 
     //Perfil puede ser Administrador/Colaborador
 
-    protected String nombre,email,telefono;
-    private final String id,contrasena;
+    protected String nombre,email,telefono,id,contrasena;
 
 
     public Usuario() {
@@ -34,21 +33,4 @@ public class Usuario{
         return contrasena;
     }
 
-    public ArrayList<Tarea> getTareas() {
-        return tareas;
-    }
-    private ArrayList<Tarea> tareas;
-
-    public void crearTarea(){
-        
-    }
-    public void eliminarTarea(){
-        
-    }
-    public void cerrarTarea(){
-        
-    }
-    public void modificarTarea(){
-        
-    }
 }

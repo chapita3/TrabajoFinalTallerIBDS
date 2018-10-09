@@ -6,6 +6,7 @@ import java.util.Iterator;
 public class Administrador extends Usuario {
     
     private ArrayList<GrupoClientes> grupos;
+    private ArrayList<Cliente> clientes;
     private ArrayList<Servicio> servicios;
     private ArrayList<Colaborador> colaboradores;
     
@@ -13,7 +14,7 @@ public class Administrador extends Usuario {
         super();
     }
     
-    public void solicitarInformeCliente(){
+    public void solicitarInformeCliente(Cliente cliente){
         
     }
     
