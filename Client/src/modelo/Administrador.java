@@ -18,7 +18,8 @@ public class Administrador extends Usuario {
         super(nombre, email, telefono, id, contrasena);
     }
 
-    public void solicitarInformeCliente(){     
+    public void solicitarInformeCliente(){  
+        }   
    
     
     public void solicitarInformeColaborador(){
@@ -32,6 +33,7 @@ public class Administrador extends Usuario {
             c.solicitarITareasEnCurso();
         }
     }
+                
     public void crearCliente(String nombre,String email,String telefono,String cuit,String razonsocial,String grupo)
     {
         this.bdd.getClientes().add(new Cliente(nombre,email,telefono,cuit,razonsocial,grupo));

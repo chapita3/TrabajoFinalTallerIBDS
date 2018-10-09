@@ -26,4 +26,10 @@ public class CerradaState implements State {
     public void cerrar() {
         //ERROR, YA ESTA CERRADA.    
     }
+
+
+    @Override
+    public String devolverestado() {
+        return "cerrada";
+    }
 }

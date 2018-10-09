@@ -26,4 +26,9 @@ public class AbiertaState implements State {
         this.tarea.setFechacierre(new Date());
         this.tarea.setEstado(new CerradaState(this.tarea));
     }
+    
+    @Override
+    public String devolverestado() {
+        return "abierta";
+    }
 }
