@@ -15,6 +15,12 @@ public class Colaborador extends Usuario {
         super();
     }
 
+
+    public Colaborador(String nombre, String email, String telefono, String id, String contrasena) {
+        // TODO Implement this method
+        super(nombre, email, telefono, id, contrasena);
+    }
+
     public void crearTarea(Servicio servicio, Cliente cliente){
         Tarea tarea = new Tarea(servicio,cliente,this);
         this.tareas.put(cliente, tarea);
