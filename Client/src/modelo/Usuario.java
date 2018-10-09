@@ -6,9 +6,16 @@ public class Usuario{
 
     //Perfil puede ser Administrador/Colaborador
 
-    protected String nombre,email,telefono;
-    private final String id,contrasena;
+    protected String nombre,email,telefono,id,contrasena;
 
+
+    public Usuario(String nombre, String email, String telefono, String id, String contrasena) {
+        this.nombre = nombre;
+        this.email = email;
+        this.telefono = telefono;
+        this.id = id;
+        this.contrasena = contrasena;
+    }
 
     public Usuario() {
         super();
@@ -39,16 +46,5 @@ public class Usuario{
     }
     private ArrayList<Tarea> tareas;
 
-    public void crearTarea(){
-        
-    }
-    public void eliminarTarea(){
-        
-    }
-    public void cerrarTarea(){
-        
-    }
-    public void modificarTarea(){
-        
-    }
+  
 }
