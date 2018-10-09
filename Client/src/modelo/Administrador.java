@@ -5,19 +5,21 @@ import java.util.Iterator;
 
 public class Administrador extends Usuario {
     
+
     private BaseDeDatos bdd;
+
     
     public Administrador() {
         super();
     }
 
+
     public Administrador(String nombre, String email, String telefono, String id, String contrasena) {
         super(nombre, email, telefono, id, contrasena);
     }
 
-    public void solicitarInformeCliente(){
-        
-    }
+    public void solicitarInformeCliente(){     
+   
     
     public void solicitarInformeColaborador(){
         

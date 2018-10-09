@@ -41,10 +41,5 @@ public class Usuario{
         return contrasena;
     }
 
-    public ArrayList<Tarea> getTareas() {
-        return tareas;
-    }
-    private ArrayList<Tarea> tareas;
 
-  
 }
