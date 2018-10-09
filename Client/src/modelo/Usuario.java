@@ -9,6 +9,14 @@ public class Usuario{
     protected String nombre,email,telefono,id,contrasena;
 
 
+    public Usuario(String nombre, String email, String telefono, String id, String contrasena) {
+        this.nombre = nombre;
+        this.email = email;
+        this.telefono = telefono;
+        this.id = id;
+        this.contrasena = contrasena;
+    }
+
     public Usuario() {
         super();
     }
@@ -32,5 +40,6 @@ public class Usuario{
     public String getContrasena() {
         return contrasena;
     }
+
 
 }
