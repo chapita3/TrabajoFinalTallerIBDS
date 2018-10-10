@@ -12,10 +12,10 @@ import java.io.FileOutputStream;
 import java.util.ArrayList;
 
 public class BaseDeDatos {
-    private ArrayList<GrupoClientes> grupos;
-    private ArrayList<Servicio> servicios;
-    private ArrayList<Cliente>clientes;
-    private ArrayList<Colaborador> colaboradores;
+    private ArrayList<GrupoClientes> grupos = new ArrayList<GrupoClientes>();
+    private ArrayList<Servicio> servicios = new ArrayList<Servicio>();
+    private ArrayList<Cliente> clientes = new ArrayList<Cliente>();
+    private ArrayList<Colaborador> colaboradores = new ArrayList<Colaborador>();
     private Administrador admin;
     
     public final static String nombreArchivo = "BaseDeDatos.xml";
