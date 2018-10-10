@@ -58,4 +58,11 @@ public class Tarea {
         this.estado = estado;
     }
 
+    public Colaborador getColaborador() {
+        return colaborador;
+    }
+
+    public int getCostototal() {
+        return costototal;
+    }
 }
