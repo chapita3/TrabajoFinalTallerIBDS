@@ -18,6 +18,14 @@ public class Administrador extends Usuario {
         super(nombre, email, telefono, id, contrasena);
     }
 
+    public void setBdd(BaseDeDatos bdd) {
+        this.bdd = bdd;
+    }
+
+    public BaseDeDatos getBdd() {
+        return bdd;
+    }
+
     public void solicitarInformeCliente(){     
     }
     

@@ -23,6 +23,31 @@ public class BaseDeDatos {
         super();
     }
 
+    public void setGrupos(ArrayList<GrupoClientes> grupos) {
+        this.grupos = grupos;
+    }
+
+    public void setServicios(ArrayList<Servicio> servicios) {
+        this.servicios = servicios;
+    }
+
+    public void setClientes(ArrayList<Cliente> clientes) {
+        this.clientes = clientes;
+    }
+
+    public void setColaboradores(ArrayList<Colaborador> colaboradores) {
+        this.colaboradores = colaboradores;
+    }
+
+    public void setAdmin(Administrador admin) {
+        this.admin = admin;
+    }
+
+    public BaseDeDatos(Administrador admin) {
+        this.admin = admin;
+        this.admin.setBdd(this);
+    }
+
 
     public ArrayList<GrupoClientes> getGrupos() {
         return grupos;
@@ -59,7 +84,7 @@ public class BaseDeDatos {
             System.out.print("no se guardo la bdd \n");
         }
     }
-    public void deserializarBDD(){
+    public BaseDeDatos deserializarBDD(){
           BaseDeDatos resp=null;
            XMLDecoder decoder=null;
            try
@@ -73,5 +98,6 @@ public class BaseDeDatos {
                    System.out.println("No se cargo");
              
                }
+           return resp;
            }
 }

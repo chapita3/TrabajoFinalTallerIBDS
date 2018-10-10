@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<java version="1.8.0_131" class="java.beans.XMLDecoder">
+ <object class="modelo.BaseDeDatos" id="BaseDeDatos0">
+  <void property="admin">
+   <object class="modelo.Administrador">
+    <void property="bdd">
+     <object idref="BaseDeDatos0"/>
+    </void>
+    <void property="contrasena">
+     <string>123</string>
+    </void>
+    <void property="email">
+     <string>admin@gmail.com</string>
+    </void>
+    <void property="id">
+     <string>admin</string>
+    </void>
+    <void property="nombre">
+     <string>Admin</string>
+    </void>
+    <void property="telefono">
+     <string>111</string>
+    </void>
+   </object>
+  </void>
+ </object>
+</java>

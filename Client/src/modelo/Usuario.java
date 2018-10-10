@@ -6,7 +6,7 @@ public class Usuario{
 
     //Perfil puede ser Administrador/Colaborador
 
-    protected String nombre,email,telefono,id,contrasena;
+    private String nombre,email,telefono,id,contrasena;
 
 
     public Usuario(String nombre, String email, String telefono, String id, String contrasena) {
@@ -42,4 +42,23 @@ public class Usuario{
     }
 
 
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setContrasena(String contrasena) {
+        this.contrasena = contrasena;
+    }
 }
