@@ -57,7 +57,7 @@ public class Colaborador extends Usuario {
                     Date fecha_actual = new Date();
                     resp = "Colaborador: " + this.getNombre()+" Cliente: "+ aux.getCliente().getNombre() +" Servicio: "+ aux.getServicio().getDescripcion() +
                            " Inicio: " + aux.getFechainicio() + " Estado : tarea " + aux.getEstado().devolverestado() + " Horas accumuladas : "+
-                           (fecha_actual.getMinutes() - aux.getFechainicio().getMinutes());                                           
+                           (fecha_actual.getMinutes() - aux.getFechainicio().getMinutes()) + "\n";                                           
                 }
             }  
         }
