@@ -1,7 +1,9 @@
 package modelo;
 
 import java.util.Date;
-
+/**
+ * Clase que representa las tareas que pueden crear los colaboradores y sobre las cuales trabajaran.<br>
+ */
 public class Tarea {
     
     //Estado puede ser Abierta/Pausa/Cerrada
@@ -58,4 +60,11 @@ public class Tarea {
         this.estado = estado;
     }
 
+    public Colaborador getColaborador() {
+        return colaborador;
+    }
+
+    public int getCostototal() {
+        return costototal;
+    }
 }

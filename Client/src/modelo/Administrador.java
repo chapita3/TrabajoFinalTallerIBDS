@@ -5,6 +5,11 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.Map;
 
+
+/**
+ * Esta clase es el administrador de la aplicacion. Se encarga de crear Servicios, Colaboradores, Clientes.<br>
+ * */
+
 public class Administrador extends Usuario {
     
 
@@ -38,6 +43,7 @@ public class Administrador extends Usuario {
             return resp;
     }   
    
+
     
     public String solicitarInformeColaboradorIntervalo(Colaborador colaborador, int x, int y){
             Iterator it = this.bdd.getColaboradores().iterator();
@@ -59,32 +65,90 @@ public class Administrador extends Usuario {
         }
         return resp;
     }
-                
+
+    /**
+     * Metodo por el cual se crea un cliente y se lo agrega a la Base de Datos.<br>
+     * <b>pre:</b> La base de datos se encuentra creada.<br>
+     * <b>post:</b> Se agrega el Cliente a la BDD.<br>
+     * @param nombre: nombre que se le asigna al cliente nuevo. <br>
+     * @param email: email que se le asigna al cliente nuevo.<br>
+     * @param telefono: telefono que se le asigna al cliente nuevo.<br>
+     * @param cuit: cuit que se le asigna al cliente nuevo.<br>
+     * @param razonsocial: razonsocial que se le asigna al cliente nuevo.<br>
+     * @param grupo: grupo que se le asigna al cliente nuevo.<br>
+     * 
+     * */
+
     public void crearCliente(String nombre,String email,String telefono,String cuit,String razonsocial,String grupo)
     {
         this.bdd.getClientes().add(new Cliente(nombre,email,telefono,cuit,razonsocial,grupo));
     }
+    
+    /**
+     * Metodo por el cual se crea un Servicio y se lo agrega a la Base de Datos.<br>
+     * <b>pre:</b> La base de datos se encuentra creada.<br>
+     * <b>post:</b> Se agrega el Servicio a la BDD.<br>
+     * @param descripcion: descripcion que se le agrega al servicio. <br>
+     * @param tipo: Tipo de servicio a realizar.<br>
+     * @param costo: Costo de realizar el servicio.<br>
+     * 
+     * */
     
     public void crearServicio(String descripcion, String tipo,int costo) 
     {
         this.bdd.getServicios().add(new Servicio(descripcion,tipo,costo));
     }  
     
+    /**
+     * Metodo por el cual se crea un Colaborador y se lo agrega a la Base de Datos.<br>
+     * <b>pre:</b> La base de datos se encuentra creada.<br>
+     * <b>post:</b> Se agrega el Colaborador a la BDD.<br>
+     * @param nombre: nombre que se le asigna al colaborador nuevo. <br>
+     * @param email: email que se le asigna al colaborador nuevo.<br>
+     * @param telefono: telefono que se le asigna al colaborador nuevo.<br>
+     * @param id: id que se le asigna a la cuenta del colaborador nuevo.<br>
+     * @param contrasena: contrasena que se le asigna a la cuenta del colaborador nuevo.<br>
+     * 
+     * */
+    
     public void crearColaborador(String nombre,String email,String telefono,String id,String contrasena)
     {
         this.bdd.getColaboradores().add(new Colaborador(nombre,email,telefono,id,contrasena));
     }
     
+    /**
+     * Metodo por el cual se elimina un Cliente y se lo elimina de la Base de Datos.<br>
+     * <b>pre:</b> La base de datos se encuentra creada.<br>
+     * <b>post:</b> Se elimina el Cliente de la BDD.<br>
+     * @param cliente: cliente que se remueve de la base de datos. <br>
+     * 
+     * */
     public void eliminarCliente(Cliente cliente)
     {
         if(cliente!=null)
         this.bdd.getClientes().remove(cliente);
     }
+    /**
+     * Metodo por el cual se elimina un Servicio y se lo elimina de la Base de Datos.<br>
+     * <b>pre:</b> La base de datos se encuentra creada.<br>
+     * <b>post:</b> Se elimina el Servicio de la BDD.<br>
+     * @param Servicio: Servicio que se remueve de la base de datos. <br>
+     * 
+     * */
     public void eliminarServicio(Servicio servicio)
     {
         if(servicio!=null)
         this.bdd.getServicios().add(servicio);
     }
+    
+    /**
+     * Metodo por el cual se elimina un Colaborador y se lo elimina de la Base de Datos.<br>
+     * <b>pre:</b> La base de datos se encuentra creada.<br>
+     * <b>post:</b> Se elimina el Colaborador de la BDD.<br>
+     * @param Colaborador: Colaborador que se remueve de la base de datos. <br>
+     * 
+     * */
+    
     public void eliminarColaborador(Colaborador colaborador)
     {
         if(colaborador!=null)

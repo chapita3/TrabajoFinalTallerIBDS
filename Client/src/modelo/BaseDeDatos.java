@@ -10,7 +10,9 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 
 import java.util.ArrayList;
-
+/**
+ *  Esta clase es la encargada del almacenamiento de toda la informacion del sitema como asi tambien de la persistencia de la misma.<br>
+ */
 public class BaseDeDatos {
     private ArrayList<GrupoClientes> grupos = new ArrayList<GrupoClientes>();
     private ArrayList<Servicio> servicios = new ArrayList<Servicio>();
@@ -21,6 +23,31 @@ public class BaseDeDatos {
     public final static String nombreArchivo = "BaseDeDatos.xml";
     public BaseDeDatos() {
         super();
+    }
+
+    public void setGrupos(ArrayList<GrupoClientes> grupos) {
+        this.grupos = grupos;
+    }
+
+    public void setServicios(ArrayList<Servicio> servicios) {
+        this.servicios = servicios;
+    }
+
+    public void setClientes(ArrayList<Cliente> clientes) {
+        this.clientes = clientes;
+    }
+
+    public void setColaboradores(ArrayList<Colaborador> colaboradores) {
+        this.colaboradores = colaboradores;
+    }
+
+    public void setAdmin(Administrador admin) {
+        this.admin = admin;
+    }
+
+    public BaseDeDatos(Administrador admin) {
+        this.admin = admin;
+        this.admin.setBdd(this);
     }
 
 
@@ -43,7 +70,10 @@ public class BaseDeDatos {
     public Administrador getAdmin() {
         return admin;
     }
-    
+    /** Este metodo serializa la Base De Datos.<br>
+     * <b>pre:</b> La BDD ya esta incializada en la ejecucion del programa.<br>
+     * <b>post:</b> Se creo un archivo XML con la BDD en el.<br>
+     */
     public void serializarBDD(){
         XMLEncoder encoder=null;
         try
@@ -59,7 +89,12 @@ public class BaseDeDatos {
             System.out.print("no se guardo la bdd \n");
         }
     }
-    public void deserializarBDD(){
+
+    /** Este metodo deserializa la Base De Datos.<br>
+     * <b>pre:</b> La BDD ya esta incializada en el archivo XML.<br>
+     * <b>post:</b> Se creo un archivo XML con la BDD en el.<br>
+     */
+    public BaseDeDatos deserializarBDD(){
           BaseDeDatos resp=null;
            XMLDecoder decoder=null;
            try
@@ -73,5 +108,6 @@ public class BaseDeDatos {
                    System.out.println("No se cargo");
              
                }
+           return resp;
            }
 }

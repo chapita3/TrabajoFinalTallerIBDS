@@ -1,5 +1,8 @@
 package modelo;
 
+/**
+ * Clase que se identifica con el estado CERRADO de una tarea determinada.<br>
+ */
 public class CerradaState implements State {
     
     private Tarea tarea;

@@ -2,6 +2,9 @@ package modelo;
 
 import java.util.Date;
 
+/**
+ * Clase que se identifica con el estado Pausado de una tarea determinada.<br>
+ */
 public class PausadaState implements State {
     
     private Tarea tarea;
