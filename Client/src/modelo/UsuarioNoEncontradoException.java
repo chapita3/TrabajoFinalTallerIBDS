@@ -1,5 +1,7 @@
 package modelo;
-
+/**
+ * Excepcion lanzada cuando no se encuentra un usuario ingreado para iniciar sesion.<br>
+ */
 public class UsuarioNoEncontradoException extends Exception {
     public UsuarioNoEncontradoException(String string, Throwable throwable, boolean b, boolean b1) {
         super(string, throwable, b, b1);

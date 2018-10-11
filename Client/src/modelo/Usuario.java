@@ -1,7 +1,9 @@
 package modelo;
 
 import java.util.ArrayList;
-
+/**
+ * Clase que representa a los usuarios del sistema(Administrador y Colaboradores), juntando sus atributos en comun.<br>
+ */
 public class Usuario{
 
     //Perfil puede ser Administrador/Colaborador

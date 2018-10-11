@@ -79,6 +79,7 @@ public class VentanaAdministrador extends javax.swing.JFrame
     }
     public int checkActivo()
     {//hacer
+        return 0;
     }
     /** This method is called from within the constructor to
      * initialize the form.

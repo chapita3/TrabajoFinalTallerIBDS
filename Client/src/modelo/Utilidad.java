@@ -12,7 +12,9 @@ import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Observable;
-
+/**
+ * Clase de modelo que realiza las conexiones con el controlador, es aquella encargada de la relacion entre las otras partes del modelo.<br>
+ */
 public class Utilidad extends Observable{
     
     private BaseDeDatos bdd;
@@ -31,7 +33,10 @@ public class Utilidad extends Observable{
             this.bdd=new BaseDeDatos(new Administrador("Admin","admin@gmail.com","111","admin","123"));
     }
     
-    
+    /**
+     *Metodo estatico del patron Singleton.<br>
+     * @return una instancia de Utilidad.<br>
+     */
     public static Utilidad getUtilidad()
     {
         Utilidad res=null;
@@ -46,7 +51,15 @@ public class Utilidad extends Observable{
         }
         return res;
     }
-    
+    /**
+     *Metodo que verifica si el usuario ingresado por el inicio de sesion corresponde al administrador, algun colaborador o a ninguno.<br>
+     * @param id: id ingresada en el inicio de sesion.<br>
+     * @param contrasena: contrasena ingresada en el inicio de sesion.
+     * @return Devuelve el tipo de usuario que ingreso sesion, nulo si no encontro a nadie.<br>
+     * <b>pre:</b> Ya hay usuarios del sistema creados como tambien un administrador.<br>
+     * <b>pos:</b> Se carga en el sistema que tipo de usuario esta activo, o informa si no encontro al usuario solicitado.<br>
+     * @throws UsuarioNoEncontradoException
+     */
     public String verificarUsuario(String id,String contrasena) throws UsuarioNoEncontradoException {
         boolean encontrado = false;
         String resp=null;

@@ -1,5 +1,8 @@
 package modelo;
 
+/**
+ * Clase que representa al cliente del sistema.<br>
+ */
 public class Cliente {
     
     private String nombre,email,telefono,cuit,razonsocial,grupo;

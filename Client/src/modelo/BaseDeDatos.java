@@ -10,7 +10,9 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 
 import java.util.ArrayList;
-
+/**
+ *  Esta clase es la encargada del almacenamiento de toda la informacion del sitema como asi tambien de la persistencia de la misma.<br>
+ */
 public class BaseDeDatos {
     private ArrayList<GrupoClientes> grupos;
     private ArrayList<Servicio> servicios;
@@ -68,7 +70,10 @@ public class BaseDeDatos {
     public Administrador getAdmin() {
         return admin;
     }
-    
+    /** Este metodo serializa la Base De Datos.<br>
+     * <b>pre:</b> La BDD ya esta incializada en la ejecucion del programa.<br>
+     * <b>post:</b> Se creo un archivo XML con la BDD en el.<br>
+     */
     public void serializarBDD(){
         XMLEncoder encoder=null;
         try
@@ -84,6 +89,11 @@ public class BaseDeDatos {
             System.out.print("no se guardo la bdd \n");
         }
     }
+
+    /** Este metodo deserializa la Base De Datos.<br>
+     * <b>pre:</b> La BDD ya esta incializada en el archivo XML.<br>
+     * <b>post:</b> Se creo un archivo XML con la BDD en el.<br>
+     */
     public BaseDeDatos deserializarBDD(){
           BaseDeDatos resp=null;
            XMLDecoder decoder=null;

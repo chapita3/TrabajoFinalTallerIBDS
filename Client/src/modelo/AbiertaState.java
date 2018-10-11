@@ -1,7 +1,9 @@
 package modelo;
 
 import java.util.Date;
-
+/**
+ * Clase que se identifica con el estado ABIERTO de una tarea determinada<br>
+ */
 public class AbiertaState implements State {
     
     private Tarea tarea;
