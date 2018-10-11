@@ -9,7 +9,6 @@ public class Servicio {
     private String descripcion,tipo;
     private int costo;
 
-
     public Servicio() {
         super();
     }

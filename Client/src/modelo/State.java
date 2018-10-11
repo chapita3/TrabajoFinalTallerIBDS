@@ -20,5 +20,5 @@ public interface State {
      * Metodo por el cual las tareas ejecutan la opcion de ser cerradas
      * */
     void cerrar();
-
+    String devolverestado();
 }
