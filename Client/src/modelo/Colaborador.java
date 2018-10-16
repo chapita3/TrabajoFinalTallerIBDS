@@ -171,11 +171,4 @@ public class Colaborador extends Usuario {
     }
 
 
-    public HashMap<Cliente, Tarea> getTareas() {
-        return tareas;
-    }
-
-    public void setTareas(HashMap<Cliente, Tarea> tareas) {
-        this.tareas = tareas;
-    }
 }
