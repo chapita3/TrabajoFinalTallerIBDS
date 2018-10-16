@@ -17,6 +17,9 @@ public class Colaborador extends Usuario {
         super();
     }
 
+    public Colaborador(String nombre, String email, String telefono, String id, String contrasena) {
+        super(nombre, email, telefono, id, contrasena);
+    }
 
     /**
      *Metodo que crea una tarea con un servicio y cliente predeterminado.<br>
@@ -26,9 +29,7 @@ public class Colaborador extends Usuario {
      * <b>pos:</b> Se crea una nueva tarea.<br>
      */
 
-    public Colaborador(String nombre, String email, String telefono, String id, String contrasena) {
-        super(nombre, email, telefono, id, contrasena);
-    }
+    
 
     public void crearTarea(Servicio servicio, Cliente cliente){
         //ACA FALTA CORROBORAR QUE NO CREE TAREA SI EXISTE ALGUNA ACTIVA (EXEPCION)      
@@ -81,6 +82,13 @@ public class Colaborador extends Usuario {
         if(this.tareas.containsKey(tarea.getCliente()))
             this.tareas.get(tarea.getCliente()).getEstado().abrir();                                  
     }
+    /**
+     * Metodo que informa el calculo por un periodo de tiempo, las tareas de servicios y horas de los colaboradores dedicadas a ls clientes.<br>
+     * Requeriemiento 3.2.2 SRS.<br>
+     * @param x Inicio del intervalo<br>
+     * @param y Fin del intervalo.<br>
+     * @return Retorna el informe propio del colaborador.<br>
+     */
     
     public String solicitarITareasIntervalo(int x, int y){
          String resp = "";
@@ -97,7 +105,14 @@ public class Colaborador extends Usuario {
         }
         return resp;
     }
-    
+    /**
+     * Informe con los servicios brindados a un solo cliente en particular en un intervalo de tiempo.<br>
+     * Requeriemiento 3.2.1 SRS.<br>
+     * @param cliente Cliente del cual se pide el informe.<br>
+     * @param x Inicio del intervalo.<br>
+     * @param y Fin del intervalo.<br>
+     * @return Retorna el informe de los servicios brindados a ese cliente en particular.<br>
+     */
     public String solicitarITareasIntervaloCliente(Cliente cliente, int x, int y){
          String resp = "";
          if(!this.tareas.isEmpty()){    
@@ -118,7 +133,14 @@ public class Colaborador extends Usuario {
         }
         return resp;
     }
-    
+    /**
+     * Metodo que permite al colaborador visualizar sus tareas a cargo.<br>
+     * Requeriemiento 3.2.6 SRS.<br>
+     * @param estado Estado de tareas que se pide el informe.<br>
+     * @param x Inicio de intervalor temporal.<br>
+     * @param y Fin del intervalo temporal.<br>
+     * @return Retorna el informe correspondiente.<br>
+     */
     public String solicitarITareasEstadoIntervalo(String estado, int x, int y){
          String resp = "Cliente  |  Tarea de Servicio  |  Inicio  |  Estado  |  Horas Acumuladas\n";
          if(!this.tareas.isEmpty()){    
@@ -142,7 +164,11 @@ public class Colaborador extends Usuario {
         }
         return resp;
     }
-    
+    /**
+     * Metodo que muestra las tareas abiertas o en pausa del colaborador.<br>
+     * Requeriemiento 3.2.3 SRS.<br>
+     * @return Retorna el informe solicitado.<br>
+     */
     public String solicitarITareasEnCurso(){
          String resp = "";
          if(!this.tareas.isEmpty()){

@@ -33,6 +33,14 @@ public class Administrador extends Usuario {
         return bdd;
     }
 
+    /**
+     * Metodo por el cual el administrador solicita todas los servicios asignados a un cliente en particular.<br>
+     * Requeriemiento 3.2.1 SRS. <br>
+     * @param cliente Cliente del cual se pide los servicios asignados.<br>
+     * @param x Inicio del intervalo temporal solicitado.<br>
+     * @param y Fin del intervalo temporal solicitado.<br>
+     * @return Retorna el informe general con todos los servicios relacionados con el cliente.<br>
+     */
     public String solicitarInformeCliente(Cliente cliente, int x, int y){
             Iterator it = this.bdd.getColaboradores().iterator();
             String resp = "Tarea de Servicio | Total horas  | Importe \n";
@@ -43,8 +51,15 @@ public class Administrador extends Usuario {
             return resp;
     }   
    
+/**
+     *  Informe que se solicita a un colaborador para informar los servicios brindados en un periodo de tiempo.<br>
+     * Requeriemiento 3.2.2 SRS.<br>
+     * @param colaborador Colaborador al que se le pide el informe.<br>
+     * @param x Inicio del intervalo temporal.<br>
+     * @param y Fin del intervalo temporal solicitado.<br>
+     * @return Devuelve el informe general solicitado al colaborador.<br>
+     */
 
-    
     public String solicitarInformeColaboradorIntervalo(Colaborador colaborador, int x, int y){
             Iterator it = this.bdd.getColaboradores().iterator();
             String resp = "Cliente  |  Tarea de servicio  | Total horas\n";
@@ -55,7 +70,11 @@ public class Administrador extends Usuario {
             }
             return resp;
     }
-    
+    /**
+     * El administrador solicita un informe de las tareas del colaborador (o todos) que esten en estado: abierta o pausado.<br>
+     *Requeriemiento 3.2.3 SRS.<br>
+     * @return Retorna un string con el informe solicitado.<br>
+     */
     public String solicitarTareasEnCursoColaboradores(){
         Iterator it = this.bdd.getColaboradores().iterator();
         String resp =" Colaborador   |   Cliente  | Servicio  | Inicio    | Estado    | Horas accumuladas | \n";
