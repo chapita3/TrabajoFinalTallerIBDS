@@ -1,6 +1,6 @@
 package modelo;
 
-import java.util.ArrayList;
+
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -10,15 +10,16 @@ import java.util.Map;
  */
 public class Colaborador extends Usuario {
     
-    //private ArrayList<Tarea> tareas;
+   
     private HashMap<Cliente,Tarea> tareas = new HashMap<Cliente,Tarea>();
+    private boolean tareaActiva=false;
     
     public Colaborador() {
         super();
     }
 
-    public Colaborador(String nombre, String email, String telefono, String id, String contrasena) {
-        super(nombre, email, telefono, id, contrasena);
+    public Colaborador(String nombre, String email, String telefono, String id, String contrasena,String perfil) {
+        super(nombre, email, telefono, id, contrasena,perfil);
     }
 
     /**
@@ -31,10 +32,16 @@ public class Colaborador extends Usuario {
 
     
 
-    public void crearTarea(Servicio servicio, Cliente cliente){
-        //ACA FALTA CORROBORAR QUE NO CREE TAREA SI EXISTE ALGUNA ACTIVA (EXEPCION)      
-        Tarea tarea = new Tarea(servicio,cliente,this);
-        this.tareas.put(cliente, tarea);
+    public void crearTarea(Servicio servicio, Cliente cliente) throws HayTareaAbiertaException {
+        if(this.tareaActiva==false){
+            Tarea tarea = new Tarea(servicio,cliente,this);
+            this.tareas.put(cliente, tarea);
+            this.tareaActiva=true;
+        }
+        else
+        {
+            throw new HayTareaAbiertaException();
+        }
     }
     
     /**
@@ -54,8 +61,10 @@ public class Colaborador extends Usuario {
      * <b>pos:</b> Se cambia el estado de la tarea a cerrado.<br>
      */
     public void cerrarTarea(Tarea tarea){
-        if(this.tareas.containsKey(tarea.getCliente()))
+        if(this.tareas.containsKey(tarea.getCliente())){
             this.tareas.get(tarea.getCliente()).getEstado().cerrar();
+            this.tareaActiva=false;
+        }
     }
     
 
@@ -67,8 +76,10 @@ public class Colaborador extends Usuario {
      */
     
     public void pausarTarea(Tarea tarea){
-        if(this.tareas.containsKey(tarea.getCliente()))
+        if(this.tareas.containsKey(tarea.getCliente())){
             this.tareas.get(tarea.getCliente()).getEstado().pausado();
+            this.tareaActiva=false;
+        }
     }
     
     /**

@@ -1,15 +1,6 @@
 package modelo;
 
-import java.beans.XMLDecoder;
-import java.beans.XMLEncoder;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Observable;
 /**
@@ -30,7 +21,7 @@ public class Utilidad extends Observable{
         if(auxBDD!=null)
             this.bdd=auxBDD;
         else
-            this.bdd=new BaseDeDatos(new Administrador("Admin","admin@gmail.com","111","admin","123"));
+            this.bdd=new BaseDeDatos(new Administrador("Admin","admin@gmail.com","111","admin","123",Utilidad.esAdministrador));
     }
     
     /**
@@ -78,12 +69,13 @@ public class Utilidad extends Observable{
                     this.colaboradorActual=(Colaborador) u;
                     resp = Utilidad.esColaborador;
                 }
+       
             }
             }
         }
         if(!encontrado){
             throw new UsuarioNoEncontradoException();
-            }//Excepcion, no encontro el usuario.
+            }
         return resp;
     }
 

@@ -16,7 +16,7 @@ public class Tarea {
     private Colaborador colaborador;
     private Servicio servicio;
     private State estado;
-    private Date fechainicio,fechacierre;
+    private Date fechainicio,fechacierre=null;
     private int costototal;
     
     public Tarea(Servicio servicio,Cliente cliente,Colaborador colaborador) {
