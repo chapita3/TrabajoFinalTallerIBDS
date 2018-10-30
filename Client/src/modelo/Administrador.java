@@ -1,10 +1,7 @@
 package modelo;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.Map;
 
+import java.util.Iterator;
 
 /**
  * Esta clase es el administrador de la aplicacion. Se encarga de crear Servicios, Colaboradores, Clientes.<br>
@@ -21,8 +18,8 @@ public class Administrador extends Usuario {
     }
 
 
-    public Administrador(String nombre, String email, String telefono, String id, String contrasena) {
-        super(nombre, email, telefono, id, contrasena);
+    public Administrador(String nombre, String email, String telefono, String id, String contrasena,String perfil) {
+        super(nombre, email, telefono, id, contrasena,perfil);
     }
 
     public void setBdd(BaseDeDatos bdd) {
@@ -33,6 +30,14 @@ public class Administrador extends Usuario {
         return bdd;
     }
 
+    /**
+     * Metodo por el cual el administrador solicita todas los servicios asignados a un cliente en particular.<br>
+     * Requeriemiento 3.2.1 SRS. <br>
+     * @param cliente Cliente del cual se pide los servicios asignados.<br>
+     * @param x Inicio del intervalo temporal solicitado.<br>
+     * @param y Fin del intervalo temporal solicitado.<br>
+     * @return Retorna el informe general con todos los servicios relacionados con el cliente.<br>
+     */
     public String solicitarInformeCliente(Cliente cliente, int x, int y){
             Iterator it = this.bdd.getColaboradores().iterator();
             String resp = "Tarea de Servicio | Total horas  | Importe \n";
@@ -43,8 +48,15 @@ public class Administrador extends Usuario {
             return resp;
     }   
    
+/**
+     *  Informe que se solicita a un colaborador para informar los servicios brindados en un periodo de tiempo.<br>
+     * Requeriemiento 3.2.2 SRS.<br>
+     * @param colaborador Colaborador al que se le pide el informe.<br>
+     * @param x Inicio del intervalo temporal.<br>
+     * @param y Fin del intervalo temporal solicitado.<br>
+     * @return Devuelve el informe general solicitado al colaborador.<br>
+     */
 
-    
     public String solicitarInformeColaboradorIntervalo(Colaborador colaborador, int x, int y){
             Iterator it = this.bdd.getColaboradores().iterator();
             String resp = "Cliente  |  Tarea de servicio  | Total horas\n";
@@ -55,7 +67,11 @@ public class Administrador extends Usuario {
             }
             return resp;
     }
-    
+    /**
+     * El administrador solicita un informe de las tareas del colaborador (o todos) que esten en estado: abierta o pausado.<br>
+     *Requeriemiento 3.2.3 SRS.<br>
+     * @return Retorna un string con el informe solicitado.<br>
+     */
     public String solicitarTareasEnCursoColaboradores(){
         Iterator it = this.bdd.getColaboradores().iterator();
         String resp =" Colaborador   |   Cliente  | Servicio  | Inicio    | Estado    | Horas accumuladas | \n";
@@ -81,7 +97,8 @@ public class Administrador extends Usuario {
 
     public void crearCliente(String nombre,String email,String telefono,String cuit,String razonsocial,String grupo)
     {
-        this.bdd.getClientes().add(new Cliente(nombre,email,telefono,cuit,razonsocial,grupo));
+        if(nombre!=null&&!nombre.equals("")&& email!=null && !email.equals("")&& telefono!=null&&! telefono.equals("") && cuit!=null&&! cuit.equals("") && razonsocial!=null&&! razonsocial.equals("") && grupo!=null&&! grupo.equals("") )
+            this.bdd.getClientes().add(new Cliente(nombre,email,telefono,cuit,razonsocial,grupo));
     }
     
     /**
@@ -96,7 +113,8 @@ public class Administrador extends Usuario {
     
     public void crearServicio(String descripcion, String tipo,int costo) 
     {
-        this.bdd.getServicios().add(new Servicio(descripcion,tipo,costo));
+        if( descripcion!=null&&! descripcion.equals("") && costo>0)
+            this.bdd.getServicios().add(new Servicio(descripcion,tipo,costo));
     }  
     
     /**
@@ -111,9 +129,10 @@ public class Administrador extends Usuario {
      * 
      * */
     
-    public void crearColaborador(String nombre,String email,String telefono,String id,String contrasena)
+    public void crearColaborador(String nombre,String email,String telefono,String id,String contrasena,String perfil)
     {
-        this.bdd.getColaboradores().add(new Colaborador(nombre,email,telefono,id,contrasena));
+        if(nombre!=null&&!nombre.equals("")&& email!=null && !email.equals("")&& telefono!=null&&! telefono.equals("") && id!=null&&! id.equals("") && contrasena!=null&&! contrasena.equals("") && perfil!=null&&! perfil.equals(""))
+            this.bdd.getColaboradores().add(new Colaborador(nombre,email,telefono,id,contrasena,perfil));
     }
     
     /**
@@ -126,7 +145,7 @@ public class Administrador extends Usuario {
     public void eliminarCliente(Cliente cliente)
     {
         if(cliente!=null)
-        this.bdd.getClientes().remove(cliente);
+            this.bdd.getClientes().remove(cliente);
     }
     /**
      * Metodo por el cual se elimina un Servicio y se lo elimina de la Base de Datos.<br>
@@ -138,7 +157,7 @@ public class Administrador extends Usuario {
     public void eliminarServicio(Servicio servicio)
     {
         if(servicio!=null)
-        this.bdd.getServicios().add(servicio);
+            this.bdd.getServicios().remove(servicio);
     }
     
     /**
@@ -152,6 +171,26 @@ public class Administrador extends Usuario {
     public void eliminarColaborador(Colaborador colaborador)
     {
         if(colaborador!=null)
-        this.bdd.getColaboradores().add(colaborador);
+            this.bdd.getColaboradores().remove(colaborador);
+    }
+
+    public void crearTarea(Servicio servicio, Cliente cliente,Colaborador colaborador) throws HayTareaAbiertaException {
+        colaborador.crearTarea(servicio, cliente);
+    }
+    public void eliminarTarea(Tarea tarea,Colaborador colaborador)
+    {
+        colaborador.eliminarTarea(tarea);
+    }
+    public void cerrarTarea(Tarea tarea,Colaborador colaborador)
+    {
+        colaborador.cerrarTarea(tarea);
+    }
+    public void pausarTarea(Tarea tarea,Colaborador colaborador)
+    {
+        colaborador.pausarTarea(tarea);
+    }
+    public void reanudarTarea(Tarea tarea,Colaborador colaborador)
+    {
+        colaborador.reanudarTarea(tarea);
     }
 }

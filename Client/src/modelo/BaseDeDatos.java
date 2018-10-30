@@ -10,6 +10,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+
 /**
  *  Esta clase es la encargada del almacenamiento de toda la informacion del sitema como asi tambien de la persistencia de la misma.<br>
  */
@@ -40,6 +42,9 @@ public class BaseDeDatos {
     public void setColaboradores(ArrayList<Colaborador> colaboradores) {
         this.colaboradores = colaboradores;
     }
+    public ArrayList<Colaborador> getColaboradores() {
+        return colaboradores;
+    }
 
     public void setAdmin(Administrador admin) {
         this.admin = admin;
@@ -63,10 +68,7 @@ public class BaseDeDatos {
         return clientes;
     }
 
-    public ArrayList<Colaborador> getColaboradores() {
-        return colaboradores;
-    }
-
+   
     public Administrador getAdmin() {
         return admin;
     }
