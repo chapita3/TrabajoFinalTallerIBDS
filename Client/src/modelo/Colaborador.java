@@ -59,7 +59,7 @@ public class Colaborador extends Usuario {
             }  
         }
         return resp;
-    }
+    } //3.2.2
     
     public String solicitarITareasIntervaloCliente(Cliente cliente, int x, int y){
          String resp = "";
@@ -80,7 +80,7 @@ public class Colaborador extends Usuario {
             }  
         }
         return resp;
-    }
+    } // 3.2.1
     
     public String solicitarITareasEstadoIntervalo(String estado, int x, int y){
          String resp = "Cliente  |  Tarea de Servicio  |  Inicio  |  Estado  |  Horas Acumuladas\n";
@@ -104,7 +104,7 @@ public class Colaborador extends Usuario {
             }  
         }
         return resp;
-    }
+    } //3.2.6
     
     public String solicitarITareasEnCurso(){
          String resp = "";
@@ -123,7 +123,7 @@ public class Colaborador extends Usuario {
             }  
         }
         return resp;
-    }
+    } //3.2.3
 
     public void setTareas(HashMap<Cliente, Tarea> tareas) {
         this.tareas = tareas;

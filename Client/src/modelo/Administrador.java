@@ -36,8 +36,7 @@ public class Administrador extends Usuario {
                 resp += c.solicitarITareasIntervaloCliente(cliente, x, y);
             }
             return resp;
-    }   
-   
+    }   // 3.2.1
     
     public String solicitarInformeColaboradorIntervalo(Colaborador colaborador, int x, int y){
             Iterator it = this.bdd.getColaboradores().iterator();
@@ -48,7 +47,7 @@ public class Administrador extends Usuario {
                     resp += c.solicitarITareasIntervalo(x, y);
             }
             return resp;
-    }
+    } //3.2.2
     
     public String solicitarTareasEnCursoColaboradores(){
         Iterator it = this.bdd.getColaboradores().iterator();
@@ -58,7 +57,7 @@ public class Administrador extends Usuario {
             resp += c.solicitarITareasEnCurso();
         }
         return resp;
-    }
+    } //3.2.3
                 
     public void crearCliente(String nombre,String email,String telefono,String cuit,String razonsocial,String grupo)
     {
