@@ -1,5 +1,8 @@
 package modelo;
 
+/**
+ * Clase que se identifica con el estado CERRADO de una tarea determinada.<br>
+ */
 public class CerradaState implements State {
     
     private Tarea tarea;
@@ -14,17 +17,14 @@ public class CerradaState implements State {
 
     @Override
     public void abrir() {
-        //ERROR, YA ESTA CERRADA.
     }
 
     @Override
     public void pausado() {
-        //ERROR, YA ESTA CERRADA.
     }
 
     @Override
-    public void cerrar() {
-        //ERROR, YA ESTA CERRADA.    
+    public void cerrar() {   
     }
 
 

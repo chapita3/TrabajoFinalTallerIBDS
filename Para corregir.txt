@@ -1,0 +1,2 @@
+-Clase Administrador: en el método solicitarInformeColaboradorIntervalo los tipos de los parámetros de entrada deberían ser de tipo Date
+-encontrar una mejor manera de usar los Date para que no sea deprecated.

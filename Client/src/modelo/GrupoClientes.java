@@ -19,6 +19,21 @@ public class GrupoClientes {
         if(this.clientes.contains(cliente))
             this.clientes.remove(cliente);
     }
-    
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public ArrayList<Cliente> getClientes() {
+        return clientes;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public void setClientes(ArrayList<Cliente> clientes) {
+        this.clientes = clientes;
+    }
 }
 
