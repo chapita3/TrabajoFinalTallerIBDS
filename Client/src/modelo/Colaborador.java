@@ -1,6 +1,7 @@
 package modelo;
 
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -101,16 +102,16 @@ public class Colaborador extends Usuario {
      * @return Retorna el informe propio del colaborador.<br>
      */
     
-    public String solicitarITareasIntervalo(int x, int y){
+    public String solicitarITareasIntervalo(Date x, Date y){
          String resp = "";
          if(!this.tareas.isEmpty()){    
             Iterator it = this.tareas.entrySet().iterator();
             while(it.hasNext()) {
                 Map.Entry map = (Map.Entry) it.next();
                 Tarea aux = (Tarea) map.getValue();
-                if((aux.getFechainicio().getHours()>= x) && (aux.getFechainicio().getHours() <= y)){
-                    Date fecha_actual = new Date();
-                    resp +=aux.getCliente().getNombre() +" "+ aux.getServicio().getDescripcion() + " " + (fecha_actual.getHours() - aux.getFechainicio().getHours()) + "\n";                                            
+                if(aux.getFechainicio().after(x) && (aux.getFechainicio().before(y))){
+                    Date fecha_actual = new Date(); 
+                    resp +=aux.getCliente().getNombre() +" "+ aux.getServicio().getDescripcion() + " " + ((fecha_actual.getTime() - aux.getFechainicio().getTime())/3600000) + "\n";                                            
                 }
             }  
         }
@@ -124,21 +125,21 @@ public class Colaborador extends Usuario {
      * @param y Fin del intervalo.<br>
      * @return Retorna el informe de los servicios brindados a ese cliente en particular.<br>
      */
-    public String solicitarITareasIntervaloCliente(Cliente cliente, int x, int y){
+    public String solicitarITareasIntervaloCliente(Cliente cliente, Date x, Date y){
          String resp = "";
          if(!this.tareas.isEmpty()){    
             Iterator it = this.tareas.entrySet().iterator();
             while(it.hasNext()) {
                 Map.Entry map = (Map.Entry) it.next();
                 Tarea aux = (Tarea) map.getValue();
-                if(aux.getCliente().getNombre().equalsIgnoreCase(cliente.getNombre()) && (aux.getFechainicio().getHours()>= x) && (aux.getFechainicio().getHours() <= y)){
+                if(aux.getCliente().getNombre().equalsIgnoreCase(cliente.getNombre()) && (aux.getFechainicio().after(x) && (aux.getFechainicio().before(y)))){
                     Date fecha_actual = new Date();
                     int costo = 0;
                     if(!aux.getServicio().getTipo().equals("Fijo"))
-                        costo = (aux.getServicio().getCosto()*(fecha_actual.getHours() - aux.getFechainicio().getHours()));
+                        costo =(int) (aux.getServicio().getCosto()*((fecha_actual.getTime() - aux.getFechainicio().getTime()) / 3600000));
                     else
                         costo = aux.getServicio().getCosto();
-                    resp += aux.getServicio().getDescripcion() + " " + (fecha_actual.getHours() - aux.getFechainicio().getHours()) + " " + costo + "\n";                                            
+                    resp += aux.getServicio().getDescripcion() + " " + ((fecha_actual.getTime() - aux.getFechainicio().getTime())/ 3600000) + " " + costo + "\n";                                            
                 }
             }  
         }
@@ -152,24 +153,24 @@ public class Colaborador extends Usuario {
      * @param y Fin del intervalo temporal.<br>
      * @return Retorna el informe correspondiente.<br>
      */
-    public String solicitarITareasEstadoIntervalo(String estado, int x, int y){
+    public String solicitarITareasEstadoIntervalo(String estado, Date x, Date y){
          String resp = "Cliente  |  Tarea de Servicio  |  Inicio  |  Estado  |  Horas Acumuladas\n";
          if(!this.tareas.isEmpty()){    
             Iterator it = this.tareas.entrySet().iterator();
             while(it.hasNext()) {
                 Map.Entry map = (Map.Entry) it.next();
                 Tarea aux = (Tarea) map.getValue();
-                if(aux.getEstado().devolverestado().equalsIgnoreCase(estado) && (aux.getFechainicio().getHours()>= x) && (aux.getFechainicio().getHours() <= y)){
+                if(aux.getEstado().devolverestado().equalsIgnoreCase(estado) && (aux.getFechainicio().after(x) && (aux.getFechainicio().before(y)))){
                     Date fecha_actual = new Date();
                     resp += aux.getCliente().getNombre() +" "+ aux.getServicio().getDescripcion() +
                            " " + aux.getFechainicio() + " " + aux.getEstado().devolverestado() + " "+
-                           (fecha_actual.getHours() - aux.getFechainicio().getHours()) + "\n";                                             
+                           ((fecha_actual.getTime() - aux.getFechainicio().getTime())/3600000) + "\n";                                             
                 }
                 else if(estado.equalsIgnoreCase("todos")){
                     Date fecha_actual = new Date();
                     resp += aux.getCliente().getNombre() +" "+ aux.getServicio().getDescripcion() +
                            " " + aux.getFechainicio() + " " + aux.getEstado().devolverestado() + " "+
-                           (fecha_actual.getHours() - aux.getFechainicio().getHours()) + "\n";
+                           ((fecha_actual.getTime() - aux.getFechainicio().getTime())/3600000) + "\n";
                     }
             }  
         }
@@ -188,11 +189,11 @@ public class Colaborador extends Usuario {
             while(it.hasNext()) {
                 Map.Entry map = (Map.Entry) it.next();
                 Tarea aux = (Tarea) map.getValue();
-                if(aux.getEstado().devolverestado().equalsIgnoreCase("abierta") || aux.getEstado().devolverestado().equalsIgnoreCase("pausada")){
+                if(aux.getEstado().devolverestado().equalsIgnoreCase("abierta") || aux.getEstado().devolverestado().equalsIgnoreCase("pausada")){                    
                     Date fecha_actual = new Date();
                     resp += this.getNombre()+" "+ aux.getCliente().getNombre() +" "+ aux.getServicio().getDescripcion() +
                            " " + aux.getFechainicio() + " " + aux.getEstado().devolverestado() + " "+
-                           (fecha_actual.getSeconds() - aux.getFechainicio().getSeconds()) + "\n";                                           
+                           ((fecha_actual.getTime() - aux.getFechainicio().getTime())/3600000) + "\n";
                 }
             }  
         }

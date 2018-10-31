@@ -1,6 +1,7 @@
 package modelo;
 
 
+import java.util.Date;
 import java.util.Iterator;
 
 /**
@@ -8,10 +9,8 @@ import java.util.Iterator;
  * */
 
 public class Administrador extends Usuario {
-    
 
     private BaseDeDatos bdd;
-
     
     public Administrador() {
         super();
@@ -38,7 +37,7 @@ public class Administrador extends Usuario {
      * @param y Fin del intervalo temporal solicitado.<br>
      * @return Retorna el informe general con todos los servicios relacionados con el cliente.<br>
      */
-    public String solicitarInformeCliente(Cliente cliente, int x, int y){
+    public String solicitarInformeCliente(Cliente cliente, Date x, Date y){
             Iterator it = this.bdd.getColaboradores().iterator();
             String resp = "Tarea de Servicio | Total horas  | Importe \n";
             while(it.hasNext()){
@@ -56,11 +55,11 @@ public class Administrador extends Usuario {
      * @param y Fin del intervalo temporal solicitado.<br>
      * @return Devuelve el informe general solicitado al colaborador.<br>
      */
-    public String solicitarInformeColaboradorIntervalo(Colaborador colaborador, int x, int y){
+    public String solicitarInformeColaboradorIntervalo(Colaborador colaborador, Date x, Date y){
             Iterator it = this.bdd.getColaboradores().iterator();
             String resp = "Cliente  |  Tarea de servicio  | Total horas\n";
             while(it.hasNext()){
-                Colaborador c = (Colaborador) it.next();
+                Colaborador c = (Colaborador) it.next( );
                 if(c.getNombre().equals(colaborador.getNombre()))
                     resp += c.solicitarITareasIntervalo(x, y);
             }
