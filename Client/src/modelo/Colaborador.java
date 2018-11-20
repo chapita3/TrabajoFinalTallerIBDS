@@ -27,15 +27,24 @@ public class Colaborador extends Usuario {
      *Metodo que crea una tarea con un servicio y cliente predeterminado.<br>
      * @param servicio: servicio para la nueva tarea.<br>
      * @param cliente: cliente para la nueva tarea.<br>
-     * <b>pre:</b> El servicio y cliente existian con anterioridad, al igual que el colaborador al que se le crea la tarea.<br>
+     * @throws HayTareaAbiertaException excepecion en caso de que haya una tarea abierta previamente.<br>
+     * @throws TareaRepetidaException excepecion en caso de que la tarea este creada previamente.<br>
+     * <b>pre:</b> cliente != null <br>
+     * servicio != null <br>
      * <b>pos:</b> Se crea una nueva tarea.<br>
      */
-    public void crearTarea(Servicio servicio, Cliente cliente) throws HayTareaAbiertaException {
-        if(this.tareaActiva==false){
-        Tarea tarea = new Tarea(servicio,cliente,this);
-        this.tareas.put(cliente, tarea);
-            this.tareaActiva=true;
-    }
+    public void crearTarea(Servicio servicio, Cliente cliente) throws HayTareaAbiertaException, TareaRepetidaException
+    {
+        if(this.tareaActiva == false){
+            Tarea tarea = new Tarea(servicio,cliente,this);
+            if(!this.tareas.containsKey(tarea)){  
+                this.tareas.put(cliente, tarea);
+                this.tareaActiva=true;
+            }
+            else{ 
+                throw new TareaRepetidaException("No se puede agregar una nueva tarea se esta ya se encuentra creada previamente.");
+            }
+        }
         else
         {
             throw new HayTareaAbiertaException("No se puede crear una nueva tarea si hay una abierta previamente");
@@ -45,31 +54,33 @@ public class Colaborador extends Usuario {
     /**
      *Metodo que elimina una tarea con un servicio y cliente predeterminado.<br>
      * @param tarea: tarea a ser eliminada.<br>
-     * <b>pre:</b> La tarea ya existia con anterioridad.<br>
+     * <b>pre:</b> tarea != null <br>
      * <b>pos:</b> Se elimina la tarea del array en el colaborador.<br>
      */
     public void eliminarTarea(Tarea tarea){
         if(this.tareas.containsKey(tarea))
             this.tareas.remove(tarea);
     }
+    
     /**
      *Metodo que cierra la tarea enviada como parametro.<br>
      * @param tarea: tarea a cerrar.<br>
      * <b>pre:</b> La tarea ya existia con anterioridad.<br>
+     * tarea != null <br> 
      * <b>pos:</b> Se cambia el estado de la tarea a cerrado.<br>
      */
     public void cerrarTarea(Tarea tarea){
-        if(this.tareas.containsKey(tarea.getCliente())){
+        if(this.tareas.containsKey(tarea.getCliente()) && !this.tareas.get(tarea).getEstado().toString().equalsIgnoreCase("cerrada") ){
             this.tareas.get(tarea.getCliente()).getEstado().cerrar();
             this.tareaActiva=false;
+        }
     }
-    }
-    
 
     /**
      *Metodo que pausa la tarea enviada como parametro.<br>
      * @param tarea: tarea a pausar.<br>
-     * <b>pre:</b> La tarea ya existia con anterioridad y es distinta de null.<br>
+     * <b>pre:</b> La tarea ya existia con anterioridad.<br>
+     * tarea != null<br>
      * <b>pos:</b> Se cambia el estado de la tarea a pausado.<br>
      */
     
@@ -77,25 +88,27 @@ public class Colaborador extends Usuario {
         if(this.tareas.containsKey(tarea.getCliente())&& tarea.getEstado().devolverestado().equals("abierta")){
             this.tareas.get(tarea.getCliente()).getEstado().pausado();
             this.tareaActiva=false;
-    }
+        }
     }
     
     /**
      *Metodo que reanuda la tarea enviada como parametro.<br>
      * @param tarea: tarea a reanudar.<br>
      * <b>pre:</b> La tarea ya existia con anterioridad.<br>
+     * tarea != null <br>
      * <b>pos:</b> Se cambia el estado de la tarea a abierta.<br>
      */
-    
     public void reanudarTarea(Tarea tarea){
-        if(this.tareas.containsKey(tarea.getCliente()))
+        if(this.tareas.containsKey(tarea.getCliente()) && !this.tareas.get(tarea).getEstado().devolverestado().equalsIgnoreCase("abierta") && !this.tareas.get(tarea).getEstado().devolverestado().equalsIgnoreCase("cerrada"))
             this.tareas.get(tarea.getCliente()).getEstado().abrir();                                  
     }
+    
     /**
      * Metodo que informa el calculo por un periodo de tiempo, las tareas de servicios y horas de los colaboradores dedicadas a ls clientes.<br>
      * Requeriemiento 3.2.2 SRS.<br>
      * @param x Inicio del intervalo<br>
      * @param y Fin del intervalo.<br>
+     * @trows Exception excepcion que se lanza cuando no hay tareas para realizar el informe
      * @return Retorna el informe propio del colaborador.<br>
      * <b>pre:</b> los Dates deben ser distintos de null.<br>
      */
@@ -124,6 +137,7 @@ public class Colaborador extends Usuario {
          else throw new Exception("No hay tareas para realizar el informe");
         return resp;
     } //3.2.2
+    
     /**
      * Informe con los servicios brindados a un solo cliente en particular en un intervalo de tiempo.<br>
      * Requeriemiento 3.2.1 SRS.<br>
@@ -175,6 +189,7 @@ public class Colaborador extends Usuario {
      * @param x Inicio de intervalor temporal.<br>
      * @param y Fin del intervalo temporal.<br>
      * @return Retorna el informe correspondiente.<br>
+     * @trows Exception excepcion que se lanza cuando no hay tareas para realizar el informe
      * <b>pre:</b> estado,x,y distintos de null.<br>
      */
     public String solicitarITareasEstadoIntervalo(String estado, Date x, Date y) throws Exception {
