@@ -32,4 +32,5 @@ public class CerradaState implements State {
     public String devolverestado() {
         return "cerrada";
     }
+    
 }

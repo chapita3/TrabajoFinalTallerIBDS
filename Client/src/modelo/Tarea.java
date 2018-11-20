@@ -17,7 +17,7 @@ public class Tarea {
     private Servicio servicio;
     private State estado;
     private Date fechainicio,fechacierre=null;
-    private int costototal;
+    private double costototal;
     
     public Tarea(Servicio servicio,Cliente cliente,Colaborador colaborador) {
         this.servicio = servicio;
@@ -47,7 +47,7 @@ public class Tarea {
         return fechacierre;
     }
 
-    public void setCostototal(int costototal) {
+    public void setCostototal(double costototal) {
         this.costototal = costototal;
     }
 
@@ -64,7 +64,7 @@ public class Tarea {
         return colaborador;
     }
 
-    public int getCostototal() {
+    public double getCostototal() {
         return costototal;
     }
 }

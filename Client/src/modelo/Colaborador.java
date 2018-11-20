@@ -27,12 +27,9 @@ public class Colaborador extends Usuario {
      *Metodo que crea una tarea con un servicio y cliente predeterminado.<br>
      * @param servicio: servicio para la nueva tarea.<br>
      * @param cliente: cliente para la nueva tarea.<br>
-     * <b>pre:</b> El servicio y cliente existian con anterioridad.<br>
+     * <b>pre:</b> El servicio y cliente existian con anterioridad, al igual que el colaborador al que se le crea la tarea.<br>
      * <b>pos:</b> Se crea una nueva tarea.<br>
      */
-
-    
-
     public void crearTarea(Servicio servicio, Cliente cliente) throws HayTareaAbiertaException {
         if(this.tareaActiva==false){
         Tarea tarea = new Tarea(servicio,cliente,this);
@@ -41,7 +38,7 @@ public class Colaborador extends Usuario {
     }
         else
         {
-            throw new HayTareaAbiertaException();
+            throw new HayTareaAbiertaException("No se puede crear una nueva tarea si hay una abierta previamente");
         }
     }
     
@@ -72,12 +69,12 @@ public class Colaborador extends Usuario {
     /**
      *Metodo que pausa la tarea enviada como parametro.<br>
      * @param tarea: tarea a pausar.<br>
-     * <b>pre:</b> La tarea ya existia con anterioridad.<br>
+     * <b>pre:</b> La tarea ya existia con anterioridad y es distinta de null.<br>
      * <b>pos:</b> Se cambia el estado de la tarea a pausado.<br>
      */
     
     public void pausarTarea(Tarea tarea){
-        if(this.tareas.containsKey(tarea.getCliente())){
+        if(this.tareas.containsKey(tarea.getCliente())&& tarea.getEstado().devolverestado().equals("abierta")){
             this.tareas.get(tarea.getCliente()).getEstado().pausado();
             this.tareaActiva=false;
     }
@@ -100,21 +97,31 @@ public class Colaborador extends Usuario {
      * @param x Inicio del intervalo<br>
      * @param y Fin del intervalo.<br>
      * @return Retorna el informe propio del colaborador.<br>
+     * <b>pre:</b> los Dates deben ser distintos de null.<br>
      */
     
-    public String solicitarITareasIntervalo(Date x, Date y){
+    public String solicitarITareasIntervalo(Date x, Date y) throws Exception {
          String resp = "";
          if(!this.tareas.isEmpty()){    
             Iterator it = this.tareas.entrySet().iterator();
             while(it.hasNext()) {
                 Map.Entry map = (Map.Entry) it.next();
                 Tarea aux = (Tarea) map.getValue();
-                if(aux.getFechainicio().after(x) && (aux.getFechainicio().before(y))){
-                    Date fecha_actual = new Date(); 
-                    resp +=aux.getCliente().getNombre() +" "+ aux.getServicio().getDescripcion() + " " + ((fecha_actual.getTime() - aux.getFechainicio().getTime())/3600000) + "\n";                                            
+                if(aux.getFechacierre()!=null){
+                    if(aux.getFechainicio().after(x) && (aux.getFechacierre().before(y))){
+                       
+                        resp +=aux.getCliente().getNombre() +" "+ aux.getServicio().getDescripcion() + " " + ((aux.getFechacierre().getTime() - aux.getFechainicio().getTime())/3600000) + "\n";                                            
+                    }
+                }
+                else
+                {
+                    if(aux.getFechainicio().after(x)){
+                        resp +=aux.getCliente().getNombre() +" "+ aux.getServicio().getDescripcion() + " " + ((y.getTime() - aux.getFechainicio().getTime())/3600000) + "\n";                                            
+                    }
                 }
             }  
         }
+         else throw new Exception("No hay tareas para realizar el informe");
         return resp;
     } //3.2.2
     /**
@@ -125,24 +132,40 @@ public class Colaborador extends Usuario {
      * @param y Fin del intervalo.<br>
      * @return Retorna el informe de los servicios brindados a ese cliente en particular.<br>
      */
-    public String solicitarITareasIntervaloCliente(Cliente cliente, Date x, Date y){
+    public String solicitarITareasIntervaloCliente(Cliente cliente, Date x, Date y, double importe){
          String resp = "";
          if(!this.tareas.isEmpty()){    
             Iterator it = this.tareas.entrySet().iterator();
             while(it.hasNext()) {
                 Map.Entry map = (Map.Entry) it.next();
                 Tarea aux = (Tarea) map.getValue();
-                if(aux.getCliente().getNombre().equalsIgnoreCase(cliente.getNombre()) && (aux.getFechainicio().after(x) && (aux.getFechainicio().before(y)))){
-                    Date fecha_actual = new Date();
+                if(aux.getCliente().getNombre().equalsIgnoreCase(cliente.getNombre())){
                     int costo = 0;
-                    if(!aux.getServicio().getTipo().equals("Fijo"))
-                        costo =(int) (aux.getServicio().getCosto()*((fecha_actual.getTime() - aux.getFechainicio().getTime()) / 3600000));
+                    if((aux.getFechacierre()!=null && aux.getFechainicio().after(x) && (aux.getFechacierre().before(y))))   
+                    {
+                        if(!aux.getServicio().getTipo().equals("Fijo"))
+                            costo =(int) (aux.getServicio().getCosto()*((aux.getFechacierre().getTime() - aux.getFechainicio().getTime()) / 3600000));
+                        else
+                            costo = aux.getServicio().getCosto();
+                        resp += aux.getServicio().getDescripcion() + " " + ((aux.getFechacierre().getTime() - aux.getFechainicio().getTime())/ 3600000) + " " + costo + "\n";
+                    } 
                     else
-                        costo = aux.getServicio().getCosto();
-                    resp += aux.getServicio().getDescripcion() + " " + ((fecha_actual.getTime() - aux.getFechainicio().getTime())/ 3600000) + " " + costo + "\n";                                            
-                }
-            }  
-        }
+                    {
+                        if(aux.getFechainicio().after(x))
+                        {
+                            if(!aux.getServicio().getTipo().equals("Fijo"))
+                                costo =(int) (aux.getServicio().getCosto()*((y.getTime() - aux.getFechainicio().getTime()) / 3600000));
+                            else
+                                costo = aux.getServicio().getCosto();
+                            
+                            resp += aux.getServicio().getDescripcion() + " " + ((y.getTime() - aux.getFechainicio().getTime())/ 3600000) + " " + costo + "\n"; 
+                        }
+                    }
+                        importe+=costo;
+                                                             
+                    }
+             }  
+            }
         return resp;
     } // 3.2.1
     /**
@@ -152,28 +175,35 @@ public class Colaborador extends Usuario {
      * @param x Inicio de intervalor temporal.<br>
      * @param y Fin del intervalo temporal.<br>
      * @return Retorna el informe correspondiente.<br>
+     * <b>pre:</b> estado,x,y distintos de null.<br>
      */
-    public String solicitarITareasEstadoIntervalo(String estado, Date x, Date y){
+    public String solicitarITareasEstadoIntervalo(String estado, Date x, Date y) throws Exception {
          String resp = "Cliente  |  Tarea de Servicio  |  Inicio  |  Estado  |  Horas Acumuladas\n";
          if(!this.tareas.isEmpty()){    
             Iterator it = this.tareas.entrySet().iterator();
             while(it.hasNext()) {
                 Map.Entry map = (Map.Entry) it.next();
                 Tarea aux = (Tarea) map.getValue();
-                if(aux.getEstado().devolverestado().equalsIgnoreCase(estado) && (aux.getFechainicio().after(x) && (aux.getFechainicio().before(y)))){
-                    Date fecha_actual = new Date();
-                    resp += aux.getCliente().getNombre() +" "+ aux.getServicio().getDescripcion() +
+                if((aux.getEstado().devolverestado().equalsIgnoreCase(estado)|| estado.equalsIgnoreCase("todos")) && aux.getFechainicio().after(x) ){
+                    if(aux.getFechacierre()!=null && aux.getFechainicio().after(x)&& aux.getFechacierre().before(y)){
+                        resp += aux.getCliente().getNombre() +" "+ aux.getServicio().getDescripcion() +
                            " " + aux.getFechainicio() + " " + aux.getEstado().devolverestado() + " "+
-                           ((fecha_actual.getTime() - aux.getFechainicio().getTime())/3600000) + "\n";                                             
-                }
-                else if(estado.equalsIgnoreCase("todos")){
-                    Date fecha_actual = new Date();
-                    resp += aux.getCliente().getNombre() +" "+ aux.getServicio().getDescripcion() +
-                           " " + aux.getFechainicio() + " " + aux.getEstado().devolverestado() + " "+
-                           ((fecha_actual.getTime() - aux.getFechainicio().getTime())/3600000) + "\n";
+                           ((aux.getFechacierre().getTime() - aux.getFechainicio().getTime())/3600000) + "\n";   
                     }
+                    else
+                    {
+                        if( aux.getFechainicio().after(x)){
+                            resp += aux.getCliente().getNombre() +" "+ aux.getServicio().getDescripcion() +
+                            " " + aux.getFechainicio() + " " + aux.getEstado().devolverestado() + " "+
+                           ((y.getTime() - aux.getFechainicio().getTime())/3600000) + "\n";   
+                        }
+                    }
+                }
+               
             }  
         }
+         else
+            throw new Exception("no hay tareas para realizar el informe");
         return resp;
     } //3.2.6
     /**
