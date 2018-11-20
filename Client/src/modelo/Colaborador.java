@@ -70,7 +70,7 @@ public class Colaborador extends Usuario {
      * <b>pos:</b> Se cambia el estado de la tarea a cerrado.<br>
      */
     public void cerrarTarea(Tarea tarea){
-        if(this.tareas.containsKey(tarea.getCliente()) && !this.tareas.get(tarea).getEstado().toString().equalsIgnoreCase("cerrada") ){
+        if(this.tareas.containsKey(tarea.getCliente()) && !this.tareas.get(tarea).getEstado().devolverestado().equalsIgnoreCase("cerrada")){
             this.tareas.get(tarea.getCliente()).getEstado().cerrar();
             this.tareaActiva=false;
         }
@@ -106,11 +106,12 @@ public class Colaborador extends Usuario {
     /**
      * Metodo que informa el calculo por un periodo de tiempo, las tareas de servicios y horas de los colaboradores dedicadas a ls clientes.<br>
      * Requeriemiento 3.2.2 SRS.<br>
-     * @param x Inicio del intervalo<br>
+     * @param x Inicio del intervalo.<br>
      * @param y Fin del intervalo.<br>
      * @trows Exception excepcion que se lanza cuando no hay tareas para realizar el informe
      * @return Retorna el informe propio del colaborador.<br>
-     * <b>pre:</b> los Dates deben ser distintos de null.<br>
+     * <b>pre</b>: El inicio del intervalo temporal(x) debe ser menor o igual al fin del intervalo temporal (y).<br>
+     *  los Dates deben ser distintos de null.<br>
      */
     
     public String solicitarITareasIntervalo(Date x, Date y) throws Exception {
@@ -144,9 +145,13 @@ public class Colaborador extends Usuario {
      * @param cliente Cliente del cual se pide el informe.<br>
      * @param x Inicio del intervalo.<br>
      * @param y Fin del intervalo.<br>
-     * @return Retorna el informe de los servicios brindados a ese cliente en particular.<br>
+     * <b>pre</b>: El inicio del intervalo temporal(x) debe ser menor o igual al fin del intervalo temporal (y).<br>
+     * <b>pre</b>: x != null .<br>
+     * <b>pre</b>: y != null .<br>
+     * <b>pre</b>: cliente != null .<br>
+     *@return Retorna el informe de los servicios brindados a ese cliente en particular.<br>
      */
-    public String solicitarITareasIntervaloCliente(Cliente cliente, Date x, Date y, double importe){
+    public String solicitarITareasIntervaloCliente(Cliente cliente, Date x, Date y, double importe)throws Exception {
          String resp = "";
          if(!this.tareas.isEmpty()){    
             Iterator it = this.tareas.entrySet().iterator();
@@ -163,24 +168,12 @@ public class Colaborador extends Usuario {
                             costo = aux.getServicio().getCosto();
                         resp += aux.getServicio().getDescripcion() + " " + ((aux.getFechacierre().getTime() - aux.getFechainicio().getTime())/ 3600000) + " " + costo + "\n";
                     } 
-                    else
-                    {
-                        if(aux.getFechainicio().after(x))
-                        {
-                            if(!aux.getServicio().getTipo().equals("Fijo"))
-                                costo =(int) (aux.getServicio().getCosto()*((y.getTime() - aux.getFechainicio().getTime()) / 3600000));
-                            else
-                                costo = aux.getServicio().getCosto();
-                            
-                            resp += aux.getServicio().getDescripcion() + " " + ((y.getTime() - aux.getFechainicio().getTime())/ 3600000) + " " + costo + "\n"; 
-                        }
-                    }
-                        importe+=costo;
-                                                             
-                    }
+                    importe+=costo;                                        
+                }
              }  
-            }
-        return resp;
+         }
+         else throw new Exception("No hay tareas para realizar el informe");
+         return resp;
     } // 3.2.1
     /**
      * Metodo que permite al colaborador visualizar sus tareas a cargo.<br>
@@ -188,6 +181,8 @@ public class Colaborador extends Usuario {
      * @param estado Estado de tareas que se pide el informe.<br>
      * @param x Inicio de intervalor temporal.<br>
      * @param y Fin del intervalo temporal.<br>
+     * @throws Exception Lista de tareas vacia
+     * <b>pre</b>: El inicio del intervalo temporal(x) debe ser menor o igual al fin del intervalo temporal (y).<br>
      * @return Retorna el informe correspondiente.<br>
      * @trows Exception excepcion que se lanza cuando no hay tareas para realizar el informe
      * <b>pre:</b> estado,x,y distintos de null.<br>

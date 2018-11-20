@@ -34,11 +34,13 @@ public class Administrador extends Usuario {
      * @param cliente Cliente del cual se pide los servicios asignados.<br>
      * @param x Inicio del intervalo temporal solicitado.<br>
      * @param y Fin del intervalo temporal solicitado.<br>
+     * @thows Exception La lista de tareas esta vacia
+     * <b>pre</b>: El inicio del intervalo temporal(x) debe ser menor o igual al fin del intervalo temporal (y).<br>
      * @return Retorna el informe general con todos los servicios relacionados con el cliente.<br>
      * <b>pre:</b> La base de datos se encuentra creada con el cliente en la base y los dates distintos de null<br>
      * <b>post:</b> Se devuelve el informe en el intervalo dado parael cliente solicitado.<br>
      */
-    public String solicitarInformeCliente(Cliente cliente, Date x, Date y){
+    public String solicitarInformeCliente(Cliente cliente, Date x, Date y) throws Exception{
             Iterator it = this.bdd.getColaboradores().iterator();
             String resp = "Tarea de Servicio | Total horas  | Importe \n";
             double importe=0;
@@ -56,6 +58,7 @@ public class Administrador extends Usuario {
      * @param colaborador Colaborador al que se le pide el informe.<br>
      * @param x Inicio del intervalo temporal.<br>
      * @param y Fin del intervalo temporal solicitado.<br>
+     * <b>pre</b>: El inicio del intervalo temporal(x) debe ser menor o igual al fin del intervalo temporal (y).<br>
      * @return Devuelve el informe general solicitado al colaborador.<br>
      * <b>pre:</b> La base de datos se encuentra creada con el colaborador en la base y los dates distintos de null<br>
      * <b>post:</b> Se devuelve el informe en el intervalo dado.<br>
