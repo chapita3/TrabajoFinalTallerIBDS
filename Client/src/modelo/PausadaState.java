@@ -26,6 +26,10 @@ public class PausadaState implements State {
     @Override
     public void cerrar() {
         this.tarea.setFechacierre(new Date());
+        if(this.tarea.getServicio().getDescripcion().equalsIgnoreCase(Servicio.porHora))
+            this.tarea.setCostototal(((this.tarea.getFechacierre().getTime()-this.tarea.getFechainicio().getTime())/3600000)*this.tarea.getServicio().getCosto());
+        else
+            this.tarea.setCostototal(this.tarea.getServicio().getCosto());
         this.tarea.setEstado(new CerradaState(this.tarea));
     }
     

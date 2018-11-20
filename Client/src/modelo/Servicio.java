@@ -6,6 +6,8 @@ public class Servicio {
      */
     //Tipo puede ser "Fijo"/"Por hora" ***IMPORTANTE QUE SE ESCRIBA CON MAYUSCULA LA PRIMERA LETRA CUANDO SE CREA***
     //Descripcion es el nombre del servicio. Ej: barrer
+    public static final String porHora="Por Hora";
+    public static final String Fijo="Fijo";
     private String descripcion,tipo;
     private int costo;
 

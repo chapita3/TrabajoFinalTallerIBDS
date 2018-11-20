@@ -36,14 +36,18 @@ public class Administrador extends Usuario {
      * @param x Inicio del intervalo temporal solicitado.<br>
      * @param y Fin del intervalo temporal solicitado.<br>
      * @return Retorna el informe general con todos los servicios relacionados con el cliente.<br>
+     *<b>pre:</b> La base de datos se encuentra creada con el cliente en la base y los dates distintos de null<br>
+     * <b>post:</b> Se devuelve el informe en el intervalo dado parael cliente solicitado.<br>
      */
     public String solicitarInformeCliente(Cliente cliente, Date x, Date y){
             Iterator it = this.bdd.getColaboradores().iterator();
             String resp = "Tarea de Servicio | Total horas  | Importe \n";
+            double importe=0;
             while(it.hasNext()){
                 Colaborador c = (Colaborador) it.next();
-                resp += c.solicitarITareasIntervaloCliente(cliente, x, y);
+                resp += c.solicitarITareasIntervaloCliente(cliente, x, y,importe);
             }
+            resp+= "\n Importe total: " + importe;
             return resp;
     }   // 3.2.1
    
@@ -54,8 +58,10 @@ public class Administrador extends Usuario {
      * @param x Inicio del intervalo temporal.<br>
      * @param y Fin del intervalo temporal solicitado.<br>
      * @return Devuelve el informe general solicitado al colaborador.<br>
+     * <b>pre:</b> La base de datos se encuentra creada con el colaborador en la base y los dates distintos de null<br>
+     * <b>post:</b> Se devuelve el informe en el intervalo dado.<br>
      */
-    public String solicitarInformeColaboradorIntervalo(Colaborador colaborador, Date x, Date y){
+    public String solicitarInformeColaboradorIntervalo(Colaborador colaborador, Date x, Date y) throws Exception {
             Iterator it = this.bdd.getColaboradores().iterator();
             String resp = "Cliente  |  Tarea de servicio  | Total horas\n";
             while(it.hasNext()){
@@ -68,14 +74,30 @@ public class Administrador extends Usuario {
     /**
      * El administrador solicita un informe de las tareas del colaborador (o todos) que esten en estado: abierta o pausado.<br>
      *Requeriemiento 3.2.3 SRS.<br>
+     * @param colaborador Colaborador al que se le pide el informe, si se pide de todos el parametro sera null.<br>
+     * @param boolean todos si es true se pedira el informe de todos los colaboradores .<br>
+     * 
      * @return Retorna un string con el informe solicitado.<br>
+     * 
      */
-    public String solicitarTareasEnCursoColaboradores(){
-        Iterator it = this.bdd.getColaboradores().iterator();
+    public String solicitarTareasEnCursoColaboradores(boolean todos,Colaborador colaborador){
+       
         String resp =" Colaborador   |   Cliente  | Servicio  | Inicio    | Estado    | Horas accumuladas | \n";
-        while(it.hasNext()){
-            Colaborador c = (Colaborador) it.next();
-            resp += c.solicitarITareasEnCurso();
+        if(todos){
+            Iterator it = this.bdd.getColaboradores().iterator();
+            while(it.hasNext()){
+                Colaborador c = (Colaborador) it.next();
+                resp += c.solicitarITareasEnCurso();
+            }
+        }
+        else
+        {
+            Iterator it = this.bdd.getColaboradores().iterator();
+            while(it.hasNext()){
+                Colaborador c = (Colaborador) it.next();
+                if(c.getId().equalsIgnoreCase(colaborador.getId()))
+                    resp += c.solicitarITareasEnCurso();
+            }
         }
         return resp;
     } //3.2.3
@@ -142,8 +164,8 @@ public class Administrador extends Usuario {
      * */
     public void eliminarCliente(Cliente cliente)
     {
-        if(cliente!=null)
-        this.bdd.getClientes().remove(cliente);
+        if(cliente!=null && this.bdd.getClientes().contains(cliente))
+            this.bdd.getClientes().remove(cliente);
     }
     /**
      * Metodo por el cual se elimina un Servicio y se lo elimina de la Base de Datos.<br>
@@ -154,7 +176,7 @@ public class Administrador extends Usuario {
      * */
     public void eliminarServicio(Servicio servicio)
     {
-        if(servicio!=null)
+        if(servicio!=null && this.bdd.getServicios().contains(servicio))
             this.bdd.getServicios().remove(servicio);
     }
     
@@ -168,25 +190,59 @@ public class Administrador extends Usuario {
     
     public void eliminarColaborador(Colaborador colaborador)
     {
-        if(colaborador!=null)
+        if(colaborador!=null && this.bdd.getColaboradores().contains(colaborador))
             this.bdd.getColaboradores().remove(colaborador);
     }
-
+    /**
+     *
+     * @param servicio servicio con el que se crea la tarea.<br>
+     * @param cliente cliente con el que se crea la tarea.<br>
+     * @param colaborador colaborador al que se crea la tarea.<br>
+     * @throws HayTareaAbiertaException excepecion en caso de que haya una tarea abierta previamente.<br>
+     * <b>pre:</b> servicio distinto de null, cliente distinto de null, colaborador distinto de null. Todos estan previamente en la base de datos.<br>
+     */
     public void crearTarea(Servicio servicio, Cliente cliente,Colaborador colaborador) throws HayTareaAbiertaException {
         colaborador.crearTarea(servicio, cliente);
 }
+    /**
+     * Elimina una tarea de la lista del colaborador.<br>
+     * @param tarea tarea a elminiar.<br>
+     * @param colaborador colaborador al que se elimina la tarea.<br>
+     * <b>pre:</b> la tarea y el colaborador existen en la base de datos y son distintos de null.<br>
+     */
     public void eliminarTarea(Tarea tarea,Colaborador colaborador)
     {
         colaborador.eliminarTarea(tarea);
     }
+
+    /**
+     * Cierra una tarea de la lista del colaborador.<br>
+     * @param tarea tarea a cerrar.<br>
+     * @param colaborador colaborador al que se cerrar la tarea.<br>
+     * <b>pre:</b> la tarea y el colaborador existen en la base de datos y son distintos de null.<br>
+     */
     public void cerrarTarea(Tarea tarea,Colaborador colaborador)
     {
         colaborador.cerrarTarea(tarea);
     }
+
+    /**
+     * Pausa una tarea de la lista del colaborador.<br>
+     * @param tarea tarea a pausar.<br>
+     * @param colaborador colaborador al que se pausar la tarea.<br>
+     * <b>pre:</b> la tarea y el colaborador existen en la base de datos y son distintos de null.<br>
+     */
     public void pausarTarea(Tarea tarea,Colaborador colaborador)
     {
         colaborador.pausarTarea(tarea);
     }
+
+    /**
+     * Reanuda una tarea de la lista del colaborador.<br>
+     * @param tarea tarea a reanudar.<br>
+     * @param colaborador colaborador al que se reanuda la tarea.<br>
+     * <b>pre:</b> la tarea y el colaborador existen en la base de datos y son distintos de null.<br>
+     */
     public void reanudarTarea(Tarea tarea,Colaborador colaborador)
     {
         colaborador.reanudarTarea(tarea);
