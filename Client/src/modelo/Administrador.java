@@ -16,7 +16,6 @@ public class Administrador extends Usuario {
         super();
     }
 
-
     public Administrador(String nombre, String email, String telefono, String id, String contrasena,String perfil) {
         super(nombre, email, telefono, id, contrasena,perfil);
     }
@@ -38,7 +37,7 @@ public class Administrador extends Usuario {
      * @thows Exception La lista de tareas esta vacia
      * <b>pre</b>: El inicio del intervalo temporal(x) debe ser menor o igual al fin del intervalo temporal (y).<br>
      * @return Retorna el informe general con todos los servicios relacionados con el cliente.<br>
-     *<b>pre:</b> La base de datos se encuentra creada con el cliente en la base y los dates distintos de null<br>
+     * <b>pre:</b> La base de datos se encuentra creada con el cliente en la base y los dates distintos de null<br>
      * <b>post:</b> Se devuelve el informe en el intervalo dado parael cliente solicitado.<br>
      */
     public String solicitarInformeCliente(Cliente cliente, Date x, Date y) throws Exception{
@@ -54,7 +53,7 @@ public class Administrador extends Usuario {
     }   // 3.2.1
    
 /**
-     *  Informe que se solicita a un colaborador para informar los servicios brindados en un periodo de tiempo.<br>
+     * Informe que se solicita a un colaborador para informar los servicios brindados en un periodo de tiempo.<br>
      * Requeriemiento 3.2.2 SRS.<br>
      * @param colaborador Colaborador al que se le pide el informe.<br>
      * @param x Inicio del intervalo temporal.<br>
@@ -74,6 +73,7 @@ public class Administrador extends Usuario {
             }
             return resp;
     } //3.2.2
+   
     /**
      * El administrador solicita un informe de las tareas del colaborador (o todos) que esten en estado: abierta o pausado.<br>
      *Requeriemiento 3.2.3 SRS.<br>
@@ -117,7 +117,6 @@ public class Administrador extends Usuario {
      * @param grupo: grupo que se le asigna al cliente nuevo.<br>
      * 
      * */
-
     public void crearCliente(String nombre,String email,String telefono,String cuit,String razonsocial,String grupo)
     {
         if(nombre!=null&&!nombre.equals("")&& email!=null && !email.equals("")&& telefono!=null&&! telefono.equals("") && cuit!=null&&! cuit.equals("") && razonsocial!=null&&! razonsocial.equals("") && grupo!=null&&! grupo.equals("") )
@@ -131,7 +130,6 @@ public class Administrador extends Usuario {
      * @param descripcion: descripcion que se le agrega al servicio. <br>
      * @param tipo: Tipo de servicio a realizar.<br>
      * @param costo: Costo de realizar el servicio.<br>
-     * 
      * */
     
     public void crearServicio(String descripcion, String tipo,int costo) 
@@ -149,7 +147,6 @@ public class Administrador extends Usuario {
      * @param telefono: telefono que se le asigna al colaborador nuevo.<br>
      * @param id: id que se le asigna a la cuenta del colaborador nuevo.<br>
      * @param contrasena: contrasena que se le asigna a la cuenta del colaborador nuevo.<br>
-     * 
      * */
     
     public void crearColaborador(String nombre,String email,String telefono,String id,String contrasena,String perfil)
@@ -202,11 +199,13 @@ public class Administrador extends Usuario {
      * @param cliente cliente con el que se crea la tarea.<br>
      * @param colaborador colaborador al que se crea la tarea.<br>
      * @throws HayTareaAbiertaException excepecion en caso de que haya una tarea abierta previamente.<br>
+     * @throws TareaRepetidaException excepecion en caso de que la tarea este creada previamente.<br>
      * <b>pre:</b> servicio distinto de null, cliente distinto de null, colaborador distinto de null. Todos estan previamente en la base de datos.<br>
      */
-    public void crearTarea(Servicio servicio, Cliente cliente,Colaborador colaborador) throws HayTareaAbiertaException {
+    public void crearTarea(Servicio servicio, Cliente cliente,Colaborador colaborador) throws HayTareaAbiertaException,TareaRepetidaException
+    {
         colaborador.crearTarea(servicio, cliente);
-}
+    }
     /**
      * Elimina una tarea de la lista del colaborador.<br>
      * @param tarea tarea a elminiar.<br>
